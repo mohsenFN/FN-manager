@@ -11,13 +11,16 @@ here is my roadmap.(this list will be longer by time)
 - [x] lock and unlock links
 - [x] lock and unluck stickers
 - [x] lock and unlock forwards
-- [ ] lock messages by hour like 8 hourse
+- [ ] lock messages by hour like 8 hourse (for command /sleep <hour -- > INTEGER> <minute -- > INTEGER>)
 - [x] remove user by command
 - [x] delete last message by count for example last 100 message
 - [x] command /me gives data about guy who has been replied for 
 - [x] report option, forwards it to admin
 - [x] function to get groups settings details
-
+- [ ] warn option for users
+* - [ ] set max warn (default = 3)
+* - [ ] replying warn will warn them if its maximum size of warns it will remove
+* - [ ] command /warn <rm> (while replyign whill remove 1 warn if ther is)
 
 i made lot of progress in this commit and i'm so hyped for up comming versions.
 some notes about new version:
