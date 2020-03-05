@@ -1,33 +1,37 @@
 # FN group manager
-#### group manager power by Python
-##### version `1.9` 
-##### using python-telegram-bot module
-##### it's and inchoate version of this. i will work on so much :)
+### powered by Python
+### version `1.9` 
+
+It's an inchoate version and I'll improve it day to day.
+
+##### used techs:
+* [Python 3.7](https://www.python.org/downloads/release/python-370/)
+* [python-telegram-bot](https://python-telegram-bot.readthedocs.io/)
+* [sqlite3](https://docs.python.org/3/library/sqlite3.html)
+* [Regular expression](https://docs.python.org/3/library/re.html)
 
 
-here is my roadmap.(this list will be longer by time)
-- [ ] use custom group links instead of being public
-- [x] set comamnd and text for group replies, like smart-question
-- [x] general options like start | help | coder 
-- [x] lock and unlock links
-- [x] lock and unluck stickers
-- [x] lock and unlock forwards
-- [ ] lock messages by hour like 8 hourse (for command /sleep <hour -- > INTEGER> <minute -- > INTEGER>)
-- [x] remove user by command
-- [x] delete last message by count for example last 100 message
-- [x] command /me gives data about guy who has been replied for 
-- [x] report option, forwards it to admin
-- [x] function to get groups settings details
-- [x] warn option for users
-* - [x] set max warn (default = 3)
-* - [x] replying warn will warn them if its maximum size of warns it will remove
+##### Roadmap
+- [ ] Use custom group link.
+- [x] Set command for custom command(e.g. !test)
+- [x] General options like start | help | coder 
+- [x] Lock and unlock links in group
+- [x] Lock and unluck stickers in group
+- [x] Lock and unlock forwards in group
+- [ ] prevent non-admin users from sending messages for limited time (for command /sleep <hour -- > INTEGER> <minute -- > INTEGER>)
+- [x] Remove user by command
+- [x] Delete last messages in group (e.g. delete 10 last messages)
+- [x] Command for getting some information about user 
+- [x] Report option(forwards the reported message to admin)
+- [x] Function for getting groups
+- [x] Warn command
 
-i made lot of progress in this commit and i'm so hyped for up comming versions.
-some notes about new version:
-* custom ! commands exmaple:
+
+### some notes about new version:
+##### custom ! commands exmaple:
 ![alt-ex](https://i.ibb.co/C5HBJvt/photo-2020-03-05-14-59-33.jpg)
  
-* warn and remove by warn test:
+##### warn and remove by warn test:
 ![alt-warn](https://i.ibb.co/6NB0MNj/photo-2020-03-05-19-55-08.jpg)
 
 
