@@ -7,13 +7,16 @@ __github__ = "github.com/mohsenFn"
 from telegram.ext import CommandHandler, MessageHandler, RegexHandler
 from telegram.ext import Updater, Filters, run_async
 from sql_manager import insert_qa, asnwer_to_q, all_q_a, delete_q
+from warn_sql import insert_warn, check_warns
 from config import *
-from re import split 
+from re import split
+
 # sub variables --> should be global while using in functions
-chat_id = 255877970
+chat_id = 255877970 # admin's chat id
 lock_link_var = None
 lock_forward_var = None
 lock_sticker_var = None
+max_warn = 3
 
 # command for giving list of admins
 def admin_list(update, context):
@@ -125,6 +128,37 @@ def set_qa_function(update, context):
             except:
                 update.message.reply_text("you have the same smart-question")
 
+def warn_function(update, context):
+    global lock_forward_var
+    is_admin = False
+    for i in context.bot.getChatAdministrators(update.message.chat_id):
+        # checks if the sender of message is admin of group or no
+        if update.message.from_user.id == i.user.id:
+            is_admin = True
+            # checks sender of message is the main admin or no
+        elif update.message.from_user.id == chat_id:
+            is_admin = True
+    if is_admin:
+        user_for_warn = update.message.reply_to_message.from_user.id
+
+        try:
+            insert_warn(user_for_warn, 1)
+            count_warns = check_warns(user_for_warn)
+            # removes user if her/his warn_count is over 2 and if not : it will add warn to user
+            if len(count_warns) >= 3 :
+                context.bot.kickChatMember(update.message.chat_id, user_for_warn)
+                update.message.reply_text(user_kicked_text.format(update.message.reply_to_message.from_user.first_name,update.message.reply_to_message.from_user.id))
+                
+            else:
+                update.message.reply_text(user_warned_text.format(update.message.reply_to_message.from_user.first_name,
+                                                                  update.message.reply_to_message.from_user.id,
+                                                                  len(check_warns(user_for_warn))))
+                # TODO: add count of warns user have DONE
+                # TODO: remove user if warns counts is 3 (or more (in case for bugs)) DONE
+        except Exception as error:
+            print(error)
+
+
 # general group manager
 @run_async
 def general_manager(update, context):
@@ -229,7 +263,7 @@ def settings_function(update, context):
         elif update.message.from_user.id == chat_id:
             is_admin = True
     if is_admin:
-        update.message.reply_text(setting_text.format(lock_sticker_var, lock_link_var, lock_forward_var))
+        update.message.reply_text(setting_text.format(lock_sticker_var, lock_link_var, lock_forward_var, max_warn))
 # purge function for deleting
 @run_async
 def purge(update, context):
@@ -257,7 +291,14 @@ def start_function(update, context):
 
 # help function
 def help_function(update, context):
-    update.message.reply_text(help_text)
+    global lock_forward_var
+    global lock_link_var
+    global lock_sticker_var
+    global max_warn
+    update.message.reply_text(help_text.format(
+        lock_sticker_var, lock_link_var,
+        lock_forward_var, max_warn
+    ))
 
 # code functon
 def coder_function(update, context):
@@ -278,6 +319,7 @@ updater.dispatcher.add_handler(CommandHandler('anti_sticker', set_anti_sticker))
 updater.dispatcher.add_handler(CommandHandler('anti_forward', set_anti_forward)) # /anti_forward on|off for anti forward option
 updater.dispatcher.add_handler(CommandHandler('admin', admin_list)) # gives list of admins
 updater.dispatcher.add_handler(CommandHandler('rm', purge)) # /rm 10 > removes last 10 messages
+updater.dispatcher.add_handler(CommandHandler('warn', warn_function)) # functionto warn non-admin members
 updater.dispatcher.add_handler(CommandHandler('me', me_function)) # /me gives info about you
 updater.dispatcher.add_handler(CommandHandler('settings', settings_function)) # function to get list of settings
 updater.dispatcher.add_handler(CommandHandler("add", set_qa_function)) # multi process command for adding|removing|checking smart questions
