@@ -17,6 +17,7 @@ command only for admins
 /anti_forward <on>|<off> turns anti-forward off or on
 /rm <int> removoes last <int> messages
 /setting function to get list of settings
+/add help for all smart-question commands
 """
 
 me_text = """
@@ -35,6 +36,8 @@ anti sticker : {}
 anti link : {}
 anti forward : {}
 """
+
+insert_qa_help_text = "use /add <question|comnmand> <asnwer|respond you want to get>\n  remember `!` should be your questions first character\nto delete a command use `/add rm <command name>`\nto see your all command use `/add <all|list>`"
 
 kali_answer = "we recommend you ubuntu.becuase it's much wiser and easier to use and also much powerfull.\nyou can install your needed tools manully."
 

@@ -4,11 +4,11 @@ __github__ = "github.com/mohsenFn"
 
 "-------------------------- CODE STARTS HERE! --------------------------"
 
-from telegram.ext import CommandHandler, MessageHandler
+from telegram.ext import CommandHandler, MessageHandler, RegexHandler
 from telegram.ext import Updater, Filters, run_async
+from sql_manager import insert_qa, asnwer_to_q, all_q_a, delete_q
 from config import *
-from re import split
-
+from re import split 
 # sub variables --> should be global while using in functions
 chat_id = 255877970
 lock_link_var = None
@@ -82,6 +82,49 @@ def set_anti_forward(update, context):
         lock_forward_var = False
         update.message.reply_text("anti-forward is off")
 
+#  function for smart questions
+def set_qa_function(update, context):
+    is_admin = False
+    for i in context.bot.getChatAdministrators(update.message.chat_id):
+        # checks if the sender of message is admin of group or no
+        if update.message.from_user.id == i.user.id:
+            is_admin = True
+            # checks sender of message is the main admin or no
+        elif update.message.from_user.id == chat_id:
+            is_admin = True
+        
+    # help for /add command --> how to : /command help
+    if context.args[0] == "help":
+        if is_admin:
+            update.message.reply_text(insert_qa_help_text)
+        
+    # shows list of all Iquestions and asnwers
+    elif context.args[0] == "all" or context.args[0] == "list":
+        if is_admin:
+            # text to send user
+            text_ts = ''
+            for row in all_q_a():
+                text_ts = text_ts+'\n'+row[0]+' --> '+' '.join(eval(row[1]))
+            update.message.reply_text(text_ts)
+
+    
+    elif context.args[0] == "rm":
+        if is_admin:
+            try:
+                delete_q(context.args[1])
+                update.message.reply_text("specified command deleted")
+            except Exception as error:
+                print(error)
+    # inserting admins Iquestions and asnwers to database
+    else:
+        if is_admin and str(context.args[0]).startswith('!'):
+            try:
+                insert_qa(str(context.args[0]), str(context.args[1:]))
+                update.message.reply_text("added !")
+            
+            except:
+                update.message.reply_text("you have the same smart-question")
+
 # general group manager
 @run_async
 def general_manager(update, context):
@@ -147,6 +190,16 @@ def sticker_manager(update, context):
             context.bot.deleteMessage(update.message.chat_id, update.message.message_id)
         except:
             pass
+
+# manager for custom Q-A s
+def qa_manager(update, context):
+    user_q = update.message.text.lower()
+    try:
+         update.message.reply_to_message.reply_text(
+            ' '.join(eval((asnwer_to_q(user_q)[0][0])))
+        )
+    except Exception as error:
+        print(error)
 
 # forwarded message handler for deleting it
 def forward_manager(update, context):
@@ -227,7 +280,9 @@ updater.dispatcher.add_handler(CommandHandler('admin', admin_list)) # gives list
 updater.dispatcher.add_handler(CommandHandler('rm', purge)) # /rm 10 > removes last 10 messages
 updater.dispatcher.add_handler(CommandHandler('me', me_function)) # /me gives info about you
 updater.dispatcher.add_handler(CommandHandler('settings', settings_function)) # function to get list of settings
-updater.dispatcher.add_handler(MessageHandler(Filters.forwarded, forward_manager))
+updater.dispatcher.add_handler(CommandHandler("add", set_qa_function)) # multi process command for adding|removing|checking smart questions
+updater.dispatcher.add_handler(MessageHandler(Filters.regex(('!\w+')), qa_manager)) # regex handler for smart questions and answers
+updater.dispatcher.add_handler(MessageHandler(Filters.forwarded, forward_manager)) # forwarded masages handler 
 updater.dispatcher.add_handler(MessageHandler(Filters.sticker, sticker_manager)) # deletes sticker if its on
 updater.dispatcher.add_handler(MessageHandler(Filters.text, general_manager)) # general message handler
 
