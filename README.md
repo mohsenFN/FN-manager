@@ -18,7 +18,7 @@ It's an inchoate version and I'll improve it day to day.
 - [x] Lock and unlock links in group
 - [x] Lock and unluck stickers in group
 - [x] Lock and unlock forwards in group
-- [ ] prevent non-admin users from sending messages for limited time (for command /sleep <hour -- > INTEGER> <minute -- > INTEGER>)
+- [ ] prevent users from sending messages for limited time (e.g. /sleep 1:30)
 - [x] Remove user by command
 - [x] Delete last messages in group (e.g. delete 10 last messages)
 - [x] Command for getting some information about user 
