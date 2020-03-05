@@ -42,10 +42,11 @@ def set_anti_link(update, context):
             lock_link_var = True
             update.message.reply_text("anti-link is on")
     else:
-        lock_link_var = False
-        update.message.reply_text("anti-link is off")
+        if is_admin:
+            lock_link_var = False
+            update.message.reply_text("anti-link is off")
 
-#  function for setting lock sticker on and off
+# function for setting lock sticker on and off
 def set_anti_sticker(update, context):
     global lock_sticker_var
     is_admin = False
@@ -62,10 +63,11 @@ def set_anti_sticker(update, context):
             lock_sticker_var = True
             update.message.reply_text("anti-sticker is on")
     else:
-        lock_sticker_var = False
-        update.message.reply_text("anti-sticker is off")
+        if is_admin:
+            lock_sticker_var = False
+            update.message.reply_text("anti-sticker is off")
 
-#  function for setting lock forward on and off
+# function for setting lock forward on and off
 def set_anti_forward(update, context):
     global lock_forward_var
     is_admin = False
@@ -82,10 +84,11 @@ def set_anti_forward(update, context):
             lock_forward_var = True
             update.message.reply_text("anti-forward is on")
     else:
-        lock_forward_var = False
-        update.message.reply_text("anti-forward is off")
+        if is_admin:
+            lock_forward_var = False
+            update.message.reply_text("anti-forward is off")
 
-#  function for smart questions
+# function for smart questions
 def set_qa_function(update, context):
     is_admin = False
     for i in context.bot.getChatAdministrators(update.message.chat_id):
@@ -128,6 +131,7 @@ def set_qa_function(update, context):
             except:
                 update.message.reply_text("you have the same smart-question")
 
+# function for warning users
 def warn_function(update, context):
     global lock_forward_var
     is_admin = False
