@@ -6,8 +6,8 @@ __github__ = "github.com/mohsenFn"
 
 from telegram.ext import CommandHandler, MessageHandler, RegexHandler
 from telegram.ext import Updater, Filters, run_async
-from sql_manager import insert_qa, asnwer_to_q, all_q_a, delete_q
-from warn_sql import insert_warn, check_warns
+from qaDB import insert_qa, asnwer_to_q, all_q_a, delete_q
+from warnsDB import insert_warn, check_warns
 from config import *
 from re import split
 
@@ -16,16 +16,19 @@ chat_id = 255877970 # admin's chat id
 lock_link_var = None
 lock_forward_var = None
 lock_sticker_var = None
+should_welcome = None
 max_warn = 3
 
 # command for giving list of admins
+@run_async
 def admin_list(update, context):
     admin = ''
     for i in context.bot.getChatAdministrators(update.message.chat_id):
         admin += '...'+i.user.name + '\n'
     context.bot.sendMessage(update.message.chat_id, "admins:\n{0}".format(admin))
 
-# function for turning off an on the anti-link
+# function for setting anti link on & off
+@run_async
 def set_anti_link(update, context):
     global lock_link_var
     is_admin = False
@@ -46,7 +49,8 @@ def set_anti_link(update, context):
             lock_link_var = False
             update.message.reply_text("anti-link is off")
 
-# function for setting lock sticker on and off
+# function for setting anti sticker on & off
+@run_async
 def set_anti_sticker(update, context):
     global lock_sticker_var
     is_admin = False
@@ -67,7 +71,8 @@ def set_anti_sticker(update, context):
             lock_sticker_var = False
             update.message.reply_text("anti-sticker is off")
 
-# function for setting lock forward on and off
+# function for setting anti forward on & off
+@run_async
 def set_anti_forward(update, context):
     global lock_forward_var
     is_admin = False
@@ -89,6 +94,7 @@ def set_anti_forward(update, context):
             update.message.reply_text("anti-forward is off")
 
 # function for smart questions
+@run_async
 def set_qa_function(update, context):
     is_admin = False
     for i in context.bot.getChatAdministrators(update.message.chat_id):
@@ -131,7 +137,30 @@ def set_qa_function(update, context):
             except:
                 update.message.reply_text("you have the same smart-question")
 
+# function for setting welcome message off & one
+@run_async
+def set_should_welcome(update, context):
+    global should_welcome
+    is_admin = False
+    for i in context.bot.getChatAdministrators(update.message.chat_id):
+        # checks if the sender of message is admin of group or no
+        if update.message.from_user.id == i.user.id:
+            is_admin = True
+            # checks sender of message is the main admin or no
+        elif update.message.from_user.id == chat_id:
+            is_admin = True
+
+    if context.args[0].lower() == "on":
+        if is_admin:
+            should_welcome = True
+            update.message.reply_text("welcome option is on")
+    else:
+        if is_admin:
+            should_welcome = False
+            update.message.reply_text("welcome option is off")
+
 # function for warning users
+@run_async
 def warn_function(update, context):
     global lock_forward_var
     is_admin = False
@@ -229,7 +258,8 @@ def sticker_manager(update, context):
         except:
             pass
 
-# manager for custom Q-A s
+# manager for custom Q&A s
+@run_async
 def qa_manager(update, context):
     user_q = update.message.text.lower()
     try:
@@ -240,6 +270,7 @@ def qa_manager(update, context):
         print(error)
 
 # forwarded message handler for deleting it
+@run_async
 def forward_manager(update, context):
     #global varibale for removing links based on varible from another function
     global lock_forward_var
@@ -250,13 +281,29 @@ def forward_manager(update, context):
             pass
 
 # function for sending info about user
+@run_async
 def me_function(update, context):
     # FU means from user XD
     fu = update.message.from_user
     update.message.reply_text(me_text.format(fu.first_name, fu.last_name,
                                                          fu.username ,fu.id, fu.is_bot))
 
+@run_async
+def welcome_function(update, context):
+    global should_welcome
+    if should_welcome:
+        new_members = update.message.new_chat_members
+        for new_member in new_members:
+            try:
+                update.message.reply_text(welcome_text.format(new_member.first_name))
+            except:
+                try:
+                    update.message.reply_text(welcome_text_non_uni)
+                except Exception as error:
+                    print(error)
+
 # function to get list of settings
+@run_async
 def settings_function(update, context):
     is_admin = False
     for i in context.bot.getChatAdministrators(update.message.chat_id):
@@ -267,7 +314,10 @@ def settings_function(update, context):
         elif update.message.from_user.id == chat_id:
             is_admin = True
     if is_admin:
-        update.message.reply_text(setting_text.format(lock_sticker_var, lock_link_var, lock_forward_var, max_warn))
+        update.message.reply_text(setting_text.format(lock_sticker_var, lock_link_var,
+                                                      lock_forward_var, should_welcome,
+                                                      max_warn))
+
 # purge function for deleting
 @run_async
 def purge(update, context):
@@ -294,6 +344,7 @@ def start_function(update, context):
     update.message.reply_text(start_text)
 
 # help function
+@run_async
 def help_function(update, context):
     global lock_forward_var
     global lock_link_var
@@ -305,6 +356,7 @@ def help_function(update, context):
     ))
 
 # code functon
+@run_async
 def coder_function(update, context):
     update.message.reply_text(coder_text)
 
@@ -321,12 +373,14 @@ updater.dispatcher.add_handler(CommandHandler("coder", coder_function))
 updater.dispatcher.add_handler(CommandHandler('anti_link', set_anti_link)) # /anti_link on|off for anti link option
 updater.dispatcher.add_handler(CommandHandler('anti_sticker', set_anti_sticker)) # /anti_sticker on|off for anti sticker option
 updater.dispatcher.add_handler(CommandHandler('anti_forward', set_anti_forward)) # /anti_forward on|off for anti forward option
+updater.dispatcher.add_handler(CommandHandler('welc', set_should_welcome)) # /welc on|off for replying welcome to new members
 updater.dispatcher.add_handler(CommandHandler('admin', admin_list)) # gives list of admins
 updater.dispatcher.add_handler(CommandHandler('rm', purge)) # /rm 10 > removes last 10 messages
 updater.dispatcher.add_handler(CommandHandler('warn', warn_function)) # functionto warn non-admin members
 updater.dispatcher.add_handler(CommandHandler('me', me_function)) # /me gives info about you
 updater.dispatcher.add_handler(CommandHandler('settings', settings_function)) # function to get list of settings
 updater.dispatcher.add_handler(CommandHandler("add", set_qa_function)) # multi process command for adding|removing|checking smart questions
+updater.dispatcher.add_handler(MessageHandler(Filters.status_update.new_chat_members, welcome_function)) # handling new users event
 updater.dispatcher.add_handler(MessageHandler(Filters.regex(('!\w+')), qa_manager)) # regex handler for smart questions and answers
 updater.dispatcher.add_handler(MessageHandler(Filters.forwarded, forward_manager)) # forwarded masages handler 
 updater.dispatcher.add_handler(MessageHandler(Filters.sticker, sticker_manager)) # deletes sticker if its on

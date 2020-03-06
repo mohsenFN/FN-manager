@@ -13,13 +13,16 @@ commands for all users
 
 command only for admins
 -->
+configing group settings
 /anti_link <on>|<off> turns anti-link off or on
 /anti_sticker <on>|<off> turns anti-link off or on
 /anti_forward <on>|<off> turns anti-forward off or on
-/rm <int> removoes last <int> messages(some isuess)
-/setting function to get list of settings
-/add help for all smart-question commands
-/warn reply this command to non-admin user to get him warn(will be kicked in 3 warns)
+/welc <on>|<off> turns welcomer option off or on
+
+/rm <int> removoes last <int> messages (some isuess)
+/settings function to get list of settings
+/add <help> to learn the instructions
+/warn reply this to warn users
 """
 
 me_text = """
@@ -37,6 +40,7 @@ to be sure about settings i use True and False
 anti sticker : {}
 anti link : {}
 anti forward : {}
+welcome : {}
 max warn : {}
 """
 
@@ -57,3 +61,6 @@ coder_text = "mohsen-fn\n. . . . channel @freezed_cash\n. . . . pv @six_6_six\n.
 user_kicked_text = "user\nname -> {}\nid ->{}\nhas been removed due warns(3)"
 
 user_warned_text = "user\nname -> {}\nid ->{}\nhas {} warns"
+
+welcome_text = "Heeewha\n{} just joined the group !"
+welcome_text_non_uni = "Heeewha\nwe have a new member !"
