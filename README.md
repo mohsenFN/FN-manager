@@ -31,10 +31,10 @@ It's an inchoate version and I'll improve it day to day.
 
 ### some notes about new version:
 ##### custom ! commands exmaple:
-![alt-ex](https://i.ibb.co/C5HBJvt/photo-2020-03-05-14-59-33.jpg)
+![alt-ex](https://pasteboard.co/IXRajm4.jpg)
  
 ##### warn and remove by warn test:
-![alt-warn](https://i.ibb.co/6NB0MNj/photo-2020-03-05-19-55-08.jpg)
+![alt-warn](https://pasteboard.co/IXRa5Ue.jpg)
 
 
 version (2.0) comming soon ...
