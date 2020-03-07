@@ -29,7 +29,7 @@ It's an inchoate version and I'll improve it day to day.
 - [x] Warn command.
 - [ ] Use Persian texts instead of English.
 - [ ] Mute and Unmute user by command
-- [ ] date command (shamsi, we can use time.ir)
+- [x] date command (shamsi, we can use time.ir)
 
 
 ### some notes about new version:
