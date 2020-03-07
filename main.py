@@ -6,6 +6,7 @@ __github__ = "github.com/mohsenFn"
 
 from telegram.ext import CommandHandler, MessageHandler, RegexHandler
 from telegram.ext import Updater, Filters, run_async
+from telegram import ChatPermissions, Bot
 from qaDB import insert_qa, asnwer_to_q, all_q_a, delete_q
 from warnsDB import insert_warn, check_warns
 from config import *
@@ -160,6 +161,59 @@ def set_should_welcome(update, context):
             should_welcome = False
             update.message.reply_text("welcome option is off")
 
+# function to mute users
+@run_async
+def mute_user_function(update, context):
+    is_admin = False
+    for i in context.bot.getChatAdministrators(update.message.chat_id):
+        # checks if the sender of message is admin of group or no
+        if update.message.from_user.id == i.user.id:
+            is_admin = True
+            # checks sender of message is the main admin or no
+        elif update.message.from_user.id == chat_id:
+            is_admin = True
+    
+    if is_admin:
+        user_for_mute = update.message.reply_to_message.from_user.id
+        try:
+            if user_for_mute == context.bot.id:
+                update.message.reply_text(cant_mute_bot_text)
+            else:
+                context.bot.restrictChatMember(update.message.chat_id , user_for_mute ,ChatPermissions(can_send_messages=False))
+                update.message.reply_to_message.reply_text(muted_user_text)
+        except Exception as error:
+            print(error)
+
+# function to unmute user(only muted ones)        
+@run_async
+def unmute_user_function(update, context):
+    is_admin = False
+    for i in context.bot.getChatAdministrators(update.message.chat_id):
+        # checks if the sender of message is admin of group or no
+        if update.message.from_user.id == i.user.id:
+            is_admin = True
+            # checks sender of message is the main admin or no
+        elif update.message.from_user.id == chat_id:
+            is_admin = True
+    if is_admin:
+        try:
+            user_for_unmute = update.message.reply_to_message.from_user.id
+            if user_for_unmute == context.bot.id:
+                update.message.reply_text(":|")
+
+            else:
+                context.bot.restrictChatMember(update.message.chat_id, int(user_for_unmute),
+                ChatPermissions(
+                                         can_post_messages=True,
+                                         can_send_media_messages=True,
+                                         can_send_other_messages=True,
+                                         can_add_web_page_previews=True) # specifing permisions
+                                        )
+
+                update.message.reply_text("Unmuted!")
+        except Exception as error:
+            print(error)
+
 # function for warning users
 @run_async
 def warn_function(update, context):
@@ -172,6 +226,7 @@ def warn_function(update, context):
             # checks sender of message is the main admin or no
         elif update.message.from_user.id == chat_id:
             is_admin = True
+
     if is_admin:
         user_for_warn = update.message.reply_to_message.from_user.id
 
@@ -192,6 +247,32 @@ def warn_function(update, context):
         except Exception as error:
             print(error)
 
+@run_async
+def sleep_function(update, context):
+    # in this mode only non-admin users are going to be prevented from sending messages
+    is_admin = False
+    for i in context.bot.getChatAdministrators(update.message.chat_id):
+        # checks if the sender of message is admin of group or no
+        if update.message.from_user.id == i.user.id:
+            is_admin = True
+            # checks sender of message is the main admin or no
+        elif update.message.from_user.id == chat_id:
+            is_admin = True
+    try:
+        if context.args[0].lower() == "on":
+            if is_admin:
+                context.bot.set_chat_permissions(update.message.chat_id, ChatPermissions(can_send_messages=False))
+                update.message.reply_text(sleep_mode_on_text)
+                
+        elif context.args[0].lower() == "off":
+            if is_admin:
+                context.bot.set_chat_permissions(update.message.chat_id, ChatPermissions(can_send_messages=True))
+                update.message.reply_text(sleep_mode_off_text)
+        elif context.args[0].lower() != "off" and context.args[0].lower() != "on":
+            if is_admin:
+                update.message.reply_text(sleep_wrong_text)
+    except Exception as error:
+        print(error)
 
 # general group manager
 @run_async
@@ -288,6 +369,7 @@ def me_function(update, context):
     fu = update.message.from_user
     update.message.reply_text(me_text.format(fu.first_name, fu.last_name,
                                                          fu.username ,fu.id, fu.is_bot))
+
 # function for getting time in Jalali implementation
 @run_async
 def time_function(update, context):
@@ -367,26 +449,38 @@ def help_function(update, context):
 def coder_function(update, context):
     update.message.reply_text(coder_text)
 
+# distinguishing update and bot(token)
+updater = Updater(token, use_context=True)
 
 "-------------------------- HANDLERS DOWN HERE! --------------------------"
-updater = Updater(token, use_context=True)
-# general handlers
 updater.dispatcher.add_handler(CommandHandler("start", start_function))
 updater.dispatcher.add_handler(CommandHandler("help", help_function))
 updater.dispatcher.add_handler(CommandHandler("coder", coder_function))
 
-# group handlers
+"------------------------ GROUP SETTING HANDLERS! ------------------------"
 updater.dispatcher.add_handler(CommandHandler('anti_link', set_anti_link)) # /anti_link on|off for anti link option
 updater.dispatcher.add_handler(CommandHandler('anti_sticker', set_anti_sticker)) # /anti_sticker on|off for anti sticker option
 updater.dispatcher.add_handler(CommandHandler('anti_forward', set_anti_forward)) # /anti_forward on|off for anti forward option
 updater.dispatcher.add_handler(CommandHandler('welc', set_should_welcome)) # /welc on|off for replying welcome to new members
-updater.dispatcher.add_handler(CommandHandler('admin', admin_list)) # gives list of admins
+updater.dispatcher.add_handler(CommandHandler('settings', settings_function)) # function to get list of settings
+
+"---------------------- CHATTING SETTINGS HANDLERS! ----------------------"
+updater.dispatcher.add_handler(CommandHandler('sleep', sleep_function))
 updater.dispatcher.add_handler(CommandHandler('rm', purge)) # /rm 10 > removes last 10 messages
+updater.dispatcher.add_handler(CommandHandler("add", set_qa_function)) # multi process command for adding|removing|checking smart questions
+
+"----------------------- USERS SETTINGS HANDLERS! ------------------------"
+updater.dispatcher.add_handler(CommandHandler('admin', admin_list)) # gives list of admins
 updater.dispatcher.add_handler(CommandHandler('warn', warn_function)) # functionto warn non-admin members
+updater.dispatcher.add_handler(CommandHandler('mute', mute_user_function)) # /mute to mute user
+updater.dispatcher.add_handler(CommandHandler('unmute', unmute_user_function)) # /unmute to unmute user
+
+
+"--------------------------- GLOABL HANDLERS! ----------------------------"
 updater.dispatcher.add_handler(CommandHandler('me', me_function)) # /me gives info about you
 updater.dispatcher.add_handler(CommandHandler('time', time_function)) # /time for getting time
-updater.dispatcher.add_handler(CommandHandler('settings', settings_function)) # function to get list of settings
-updater.dispatcher.add_handler(CommandHandler("add", set_qa_function)) # multi process command for adding|removing|checking smart questions
+
+"--------------------------- MESSAGE HANDLERS! ---------------------------"
 updater.dispatcher.add_handler(MessageHandler(Filters.status_update.new_chat_members, welcome_function)) # handling new users event
 updater.dispatcher.add_handler(MessageHandler(Filters.regex(('!\w+')), qa_manager)) # regex handler for smart questions and answers
 updater.dispatcher.add_handler(MessageHandler(Filters.forwarded, forward_manager)) # forwarded masages handler 

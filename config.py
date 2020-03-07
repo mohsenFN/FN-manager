@@ -8,7 +8,7 @@ commands for all users
 /coder about coder and this code
 /me data about user
 /admin list of admins in current group
-
+/time command for getting time(year-Month-Day Hour:minute)
 -------------------------
 
 command only for admins
@@ -23,7 +23,9 @@ configing group settings
 /settings function to get list of settings
 /add <help> to learn the instructions
 /warn reply this to warn users
-/time command for getting time(year-Month-Day Hour:minute)
+/mute and /unmute --> clear point :)
+/sleep on|off for preventing users from chatting 
+
 """
 
 me_text = """
@@ -64,4 +66,17 @@ user_kicked_text = "user\nname -> {}\nid ->{}\nhas been removed due warns(3)"
 user_warned_text = "user\nname -> {}\nid ->{}\nhas {} warns"
 
 welcome_text = "Heeewha\n{} just joined the group !"
+
 welcome_text_non_uni = "Heeewha\nwe have a new member !"
+
+sleep_mode_on_text = "Sleep mode activted\nuse /sleep off for deactivating"
+
+sleep_mode_off_text = "Sleep mode is no longer active"
+
+sleep_wrong_text = "invlaid arguments -- > on|off"
+
+cant_mute_bot_text = "You cant mute me :("
+
+muted_user_text = "#MUTED\nspecified user is muted now\nuse /unmute if you changed your mine"
+
+unmuted_user_text = "this user is not muted already"
