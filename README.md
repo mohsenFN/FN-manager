@@ -15,29 +15,32 @@ It's an inchoate version and I'll improve it day to day.
 - [x] Set command for custom command(e.g. !test).
 - [x] General options like start | help | coder.
 - [x] Lock and unlock links in group.
+- [ ] Lock and unlock gifs in group.
 - [x] Lock and unluck stickers in group.
 - [x] Lock and unlock forwards in group.
-- [x] lock and unlock welcome message for new users.
+- [x] Lock and unlock welcome message for new users.
 - [x] Prevent non-admin user from chatting.
-- [ ] alert admin if any bot is joined.
-- [x] Remove user by command
+- [ ] Alert admin if any bot is joined.
+- [ ] Set anti-Spammer with custom max m/s. 
+- [x] Remove user by command.
 - [x] Reply the custom message for new users. 
 - [x] Delete last messages in group (e.g. delete 10 last messages).
 - [x] Command for getting some information about user.
 - [x] Report option(forwards the reported message to admin).
 - [x] Function for getting groups.
+- [ ] Function for getting groups but inlineMode.
 - [x] Warn command.
-- [ ] Delete users' warn by admins command
-- [x] Mute and Unmute user by command
-- [x] date command (based on Solar Hijri)
+- [ ] Delete users' warn by admins command.
+- [x] Mute and Unmute user by command.
+- [x] Date command (based on Solar Hijri).
 - [ ] Use Persian texts instead of English(last stage).
-- [ ] add wiki to repo(last stage).
+- [ ] Add wiki to repo(last stage).
 
-### some notes about new version:
-##### custom ! commands exmaple:
+### Some shots:
+##### Warn and remove by warn test:
 ![alt-ex](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg)
- 
-##### warn and remove by warn test:
+
+##### Custom ! commands exmaple:
 ![alt-warn](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example2.jpg)
 
 ##### Mute and Unmute command:
