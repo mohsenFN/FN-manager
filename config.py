@@ -23,6 +23,7 @@ configing group settings
 /settings function to get list of settings
 /add <help> to learn the instructions
 /warn reply this to warn users
+/time command for getting time(year-Month-Day Hour:minute)
 """
 
 me_text = """
