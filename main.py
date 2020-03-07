@@ -10,6 +10,7 @@ from qaDB import insert_qa, asnwer_to_q, all_q_a, delete_q
 from warnsDB import insert_warn, check_warns
 from config import *
 from re import split
+import jdatetime
 
 # sub variables --> should be global while using in functions
 chat_id = admin # admin's chat id
@@ -287,6 +288,12 @@ def me_function(update, context):
     fu = update.message.from_user
     update.message.reply_text(me_text.format(fu.first_name, fu.last_name,
                                                          fu.username ,fu.id, fu.is_bot))
+# function for getting time in Jalali implementation
+@run_async
+def time_function(update, context):
+    # time_ts --> time to send
+    time_ts = jdatetime.datetime.now().strftime("%Y-%B-%d %H:%M")
+    update.message.reply_text(time_ts)
 
 @run_async
 def welcome_function(update, context):
@@ -361,7 +368,6 @@ def coder_function(update, context):
     update.message.reply_text(coder_text)
 
 
-
 "-------------------------- HANDLERS DOWN HERE! --------------------------"
 updater = Updater(token, use_context=True)
 # general handlers
@@ -378,6 +384,7 @@ updater.dispatcher.add_handler(CommandHandler('admin', admin_list)) # gives list
 updater.dispatcher.add_handler(CommandHandler('rm', purge)) # /rm 10 > removes last 10 messages
 updater.dispatcher.add_handler(CommandHandler('warn', warn_function)) # functionto warn non-admin members
 updater.dispatcher.add_handler(CommandHandler('me', me_function)) # /me gives info about you
+updater.dispatcher.add_handler(CommandHandler('time', time_function)) # /time for getting time
 updater.dispatcher.add_handler(CommandHandler('settings', settings_function)) # function to get list of settings
 updater.dispatcher.add_handler(CommandHandler("add", set_qa_function)) # multi process command for adding|removing|checking smart questions
 updater.dispatcher.add_handler(MessageHandler(Filters.status_update.new_chat_members, welcome_function)) # handling new users event
