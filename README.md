@@ -34,10 +34,10 @@ It's an inchoate version and I'll improve it day to day.
 
 ### some notes about new version:
 ##### custom ! commands exmaple:
-![alt-ex](https://pasteboard.co/IXRajm4.jpg)
+![alt-ex](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg)
  
 ##### warn and remove by warn test:
-![alt-warn](https://pasteboard.co/IXRa5Ue.jpg)
+![alt-warn](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example2.jpg)
 
 
 version (2.0) comming soon ...
