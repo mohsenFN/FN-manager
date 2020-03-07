@@ -27,9 +27,10 @@ It's an inchoate version and I'll improve it day to day.
 - [x] Report option(forwards the reported message to admin).
 - [x] Function for getting groups.
 - [x] Warn command.
-- [ ] Use Persian texts instead of English(last stage).
+- [ ] Delete users' warn by admins command
 - [x] Mute and Unmute user by command
 - [x] date command (based on Solar Hijri)
+- [ ] Use Persian texts instead of English(last stage).
 - [ ] add wiki to repo(last stage).
 
 ### some notes about new version:
