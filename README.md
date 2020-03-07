@@ -18,7 +18,8 @@ It's an inchoate version and I'll improve it day to day.
 - [x] Lock and unluck stickers in group.
 - [x] Lock and unlock forwards in group.
 - [x] lock and unlock welcome message for new users.
-- [ ] Prevent users from sending messages for limited time (e.g. /sleep 1:30).
+- [ ] Prevent non-admin user from chatting in night.
+- [ ] Warn admin if any bot is joined.
 - [x] Remove user by command
 - [x] Reply the custom message for new users. 
 - [x] Delete last messages in group (e.g. delete 10 last messages).
@@ -27,6 +28,9 @@ It's an inchoate version and I'll improve it day to day.
 - [x] Function for getting groups.
 - [x] Warn command.
 - [ ] Use Persian texts instead of English.
+- [ ] Mute and Unmute user by command
+- [ ] date command (shamsi, we can use time.ir)
+- [ ]
 
 
 ### some notes about new version:
