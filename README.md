@@ -30,7 +30,7 @@ It's an inchoate version and I'll improve it day to day.
 - [ ] Use Persian texts instead of English.
 - [ ] Mute and Unmute user by command
 - [x] date command (shamsi, we can use time.ir)
-
+- [ ] add wiki to repo
 
 ### some notes about new version:
 ##### custom ! commands exmaple:
