@@ -12,7 +12,7 @@ from config import *
 from re import split
 
 # sub variables --> should be global while using in functions
-chat_id = 255877970 # admin's chat id
+chat_id = admin # admin's chat id
 lock_link_var = None
 lock_forward_var = None
 lock_sticker_var = None
