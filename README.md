@@ -31,14 +31,14 @@ It's an inchoate version and I'll improve it day to day.
 - [x] Delete users' warn by admins command.
 - [x] Mute and Unmute user by command.
 - [x] Date command (based on Solar Hijri).
-- [x] Use stickers
+- [x] Use stickers.
 - [ ] Use Persian texts instead of English(last stage).
 - [ ] Add wiki to repo(last stage).
 
 #### If you have any ideas for my project feel free to share it with me :)
 
 ### Some shots:
-##### Warn and remove by warn test:
+##### New admin pannel + emoji 
 ![alt-pannel](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example4.jpg)
 
 ##### Warn and remove by warn test:
