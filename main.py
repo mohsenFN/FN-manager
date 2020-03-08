@@ -7,8 +7,8 @@ __github__ = "github.com/mohsenFn"
 from telegram.ext import CommandHandler, MessageHandler, RegexHandler
 from telegram.ext import Updater, Filters, run_async
 from telegram import ChatPermissions, Bot
+from warnsDB import insert_warn, check_warns, remove_warns_by_id
 from qaDB import insert_qa, asnwer_to_q, all_q_a, delete_q
-from warnsDB import insert_warn, check_warns
 from config import *
 from re import split
 import jdatetime
@@ -18,6 +18,7 @@ chat_id = admin # admin's chat id
 lock_link_var = None
 lock_forward_var = None
 lock_sticker_var = None
+lock_gifs_var = None
 should_welcome = None
 max_warn = 3
 
@@ -71,6 +72,28 @@ def set_anti_sticker(update, context):
     else:
         if is_admin:
             lock_sticker_var = False
+            update.message.reply_text("anti-sticker is off")
+
+# function for setting anti gif on & off
+@run_async
+def set_anti_gifs(update, context):
+    global lock_gifs_var
+    is_admin = False
+    for i in context.bot.getChatAdministrators(update.message.chat_id):
+        # checks if the sender of message is admin of group or no
+        if update.message.from_user.id == i.user.id:
+            is_admin = True
+            # checks sender of message is the main admin or no
+        elif update.message.from_user.id == chat_id:
+            is_admin = True
+
+    if context.args[0].lower() == "on":
+        if is_admin:
+            lock_gifs_var = True
+            update.message.reply_text("anti-sticker is on")
+    else:
+        if is_admin:
+            lock_gifs_var = False
             update.message.reply_text("anti-sticker is off")
 
 # function for setting anti forward on & off
@@ -217,7 +240,6 @@ def unmute_user_function(update, context):
 # function for warning users
 @run_async
 def warn_function(update, context):
-    global lock_forward_var
     is_admin = False
     for i in context.bot.getChatAdministrators(update.message.chat_id):
         # checks if the sender of message is admin of group or no
@@ -231,19 +253,47 @@ def warn_function(update, context):
         user_for_warn = update.message.reply_to_message.from_user.id
 
         try:
-            insert_warn(user_for_warn, 1)
             count_warns = check_warns(user_for_warn)
             # removes user if her/his warn_count is over 2 and if not : it will add warn to user
-            if len(count_warns) >= 3 :
+            if len(count_warns) >=2 :
                 context.bot.kickChatMember(update.message.chat_id, user_for_warn)
-                update.message.reply_text(user_kicked_text.format(update.message.reply_to_message.from_user.first_name,update.message.reply_to_message.from_user.id))
-                
+                # removes all other warns after getting removed
+                remove_warns_by_id(user_for_warn)
+                try:
+                    update.message.reply_text(user_kicked_text.format(update.message.reply_to_message.from_user.first_name,
+                                                                    update.message.reply_to_message.from_user.id))
+                except:
+                    update.message.reply_text("user kicked")
+          
             else:
-                update.message.reply_text(user_warned_text.format(update.message.reply_to_message.from_user.first_name,
-                                                                  update.message.reply_to_message.from_user.id,
-                                                                  len(check_warns(user_for_warn))))
-                # TODO: add count of warns user have DONE
-                # TODO: remove user if warns counts is 3 (or more (in case for bugs)) DONE
+                insert_warn(user_for_warn, 1)
+                try:
+                    update.message.reply_text(user_warned_text.format(update.message.reply_to_message.from_user.first_name,
+                                                                    update.message.reply_to_message.from_user.id,
+                                                                    len(check_warns(user_for_warn))))
+                except:
+                    update.message.reply_text("Warned !\nHas {} warns".format(len(check_warns(user_for_warn))))
+        except Exception as error:
+            print(error)
+
+# function to remove users warning(s)
+@run_async
+def forgive_function(update, context):
+    s_admin = False
+    for i in context.bot.getChatAdministrators(update.message.chat_id):
+        # checks if the sender of message is admin of group or no
+        if update.message.from_user.id == i.user.id:
+            is_admin = True
+            # checks sender of message is the main admin or no
+        elif update.message.from_user.id == chat_id:
+            is_admin = True
+    
+    if is_admin:
+        user_to_forgive = update.message.reply_to_message.from_user.id # type --> integer
+
+        try:
+            remove_warns_by_id(user_to_forgive)
+            update.message.reply_text("User forgived !")
         except Exception as error:
             print(error)
 
@@ -266,7 +316,12 @@ def sleep_function(update, context):
                 
         elif context.args[0].lower() == "off":
             if is_admin:
-                context.bot.set_chat_permissions(update.message.chat_id, ChatPermissions(can_send_messages=True))
+                context.bot.set_chat_permissions(update.message.chat_id, ChatPermissions(
+                                         can_post_messages=True,
+                                         can_send_media_messages=True,
+                                         can_send_other_messages=True,
+                                         can_add_web_page_previews=True) # specifing permisions
+                                        )
                 update.message.reply_text(sleep_mode_off_text)
         elif context.args[0].lower() != "off" and context.args[0].lower() != "on":
             if is_admin:
@@ -291,10 +346,10 @@ def general_manager(update, context):
 
         if lock_link_var == True:
             for i in split(" ", update.message.text.lower()):
-                if i.startswith("http:") or  i.startswith("https:"):
+                if i.startswith("http:") or  i.startswith("https:") and not is_admin:
                     context.bot.deleteMessage(update.message.chat_id, update.message.message_id)
             for i in split("\n", update.message.text.lower()):
-                if i.startswith("http:") or  i.startswith("https:"):
+                if i.startswith("http:") or  i.startswith("https:") and not is_admin:
                     context.bot.deleteMessage(update.message.chat_id, update.message.message_id)
 
     
@@ -334,7 +389,16 @@ def general_manager(update, context):
 def sticker_manager(update, context):
     #global varibale for removing links based on varible from another function
     global lock_sticker_var
-    if lock_sticker_var:
+    is_admin = False
+    for i in context.bot.getChatAdministrators(update.message.chat_id):
+        # checks if the sender of message is admin of group or no
+        if update.message.from_user.id == i.user.id:
+            is_admin = True
+            # checks sender of message is the main admin or no
+        elif update.message.from_user.id == chat_id:
+            is_admin = True
+
+    if lock_sticker_var and not is_admin:
         try:
             context.bot.deleteMessage(update.message.chat_id, update.message.message_id)
         except:
@@ -354,9 +418,37 @@ def qa_manager(update, context):
 # forwarded message handler for deleting it
 @run_async
 def forward_manager(update, context):
-    #global varibale for removing links based on varible from another function
+    #global varibale for removing forwardeds based on varible from another function
     global lock_forward_var
-    if lock_forward_var:
+    is_admin = False
+    for i in context.bot.getChatAdministrators(update.message.chat_id):
+        # checks if the sender of message is admin of group or no
+        if update.message.from_user.id == i.user.id:
+            is_admin = True
+            # checks sender of message is the main admin or no
+        elif update.message.from_user.id == chat_id:
+            is_admin = True
+
+    if lock_forward_var and not is_admin:
+        try:
+            context.bot.deleteMessage(update.message.chat_id, update.message.message_id)
+        except:
+            pass
+
+# gits handler for deleting them
+@run_async
+def gifs_manager(update, context):
+    global lock_gifs_var
+    is_admin = False
+    for i in context.bot.getChatAdministrators(update.message.chat_id):
+        # checks if the sender of message is admin of group or no
+        if update.message.from_user.id == i.user.id:
+            is_admin = True
+            # checks sender of message is the main admin or no
+        elif update.message.from_user.id == chat_id:
+            is_admin = True
+
+    if lock_gifs_var and not is_admin:
         try:
             context.bot.deleteMessage(update.message.chat_id, update.message.message_id)
         except:
@@ -461,6 +553,7 @@ updater.dispatcher.add_handler(CommandHandler("coder", coder_function))
 updater.dispatcher.add_handler(CommandHandler('anti_link', set_anti_link)) # /anti_link on|off for anti link option
 updater.dispatcher.add_handler(CommandHandler('anti_sticker', set_anti_sticker)) # /anti_sticker on|off for anti sticker option
 updater.dispatcher.add_handler(CommandHandler('anti_forward', set_anti_forward)) # /anti_forward on|off for anti forward option
+updater.dispatcher.add_handler(CommandHandler('anti_gif', set_anti_gifs)) # /anti_gif on|off for anti forward option
 updater.dispatcher.add_handler(CommandHandler('welc', set_should_welcome)) # /welc on|off for replying welcome to new members
 updater.dispatcher.add_handler(CommandHandler('settings', settings_function)) # function to get list of settings
 
@@ -472,6 +565,7 @@ updater.dispatcher.add_handler(CommandHandler("add", set_qa_function)) # multi p
 "----------------------- USERS SETTINGS HANDLERS! ------------------------"
 updater.dispatcher.add_handler(CommandHandler('admin', admin_list)) # gives list of admins
 updater.dispatcher.add_handler(CommandHandler('warn', warn_function)) # functionto warn non-admin members
+updater.dispatcher.add_handler(CommandHandler('forgive', forgive_function))
 updater.dispatcher.add_handler(CommandHandler('mute', mute_user_function)) # /mute to mute user
 updater.dispatcher.add_handler(CommandHandler('unmute', unmute_user_function)) # /unmute to unmute user
 
@@ -486,6 +580,7 @@ updater.dispatcher.add_handler(MessageHandler(Filters.regex(('!\w+')), qa_manage
 updater.dispatcher.add_handler(MessageHandler(Filters.forwarded, forward_manager)) # forwarded masages handler 
 updater.dispatcher.add_handler(MessageHandler(Filters.sticker, sticker_manager)) # deletes sticker if its on
 updater.dispatcher.add_handler(MessageHandler(Filters.text, general_manager)) # general message handler
+updater.dispatcher.add_handler(MessageHandler(Filters.animation, gifs_manager))
 
 # strating bot
 print("running ... ")

@@ -1,6 +1,6 @@
 token = "573403283:AAHWfASnPy13q_2eEfILghgDHYTRzsnYtkI"
 admin = 255877970 # for sending group stats and etc.
-help_text = """
+help_text = """ \
 
 commands for all users
 -->
