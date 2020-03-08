@@ -4,12 +4,13 @@ __github__ = "github.com/mohsenFn"
 
 "-------------------------- CODE STARTS HERE! --------------------------"
 
-from telegram.ext import CommandHandler, MessageHandler, RegexHandler
+from telegram.ext import CommandHandler, MessageHandler, RegexHandler, CallbackQueryHandler
 from telegram.ext import Updater, Filters, run_async
 from telegram import ChatPermissions, Bot
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from warnsDB import insert_warn, check_warns, remove_warns_by_id
 from qaDB import insert_qa, asnwer_to_q, all_q_a, delete_q
+from handy_modules import check_tfn, query_tfn
 from config import *
 from re import split
 import jdatetime
@@ -25,6 +26,18 @@ lock_gifs_var = None
 should_welcome = None
 sleep_status = None
 max_warn = 3
+
+# keyboard for admin pannel
+keyboard = [
+                [InlineKeyboardButton(emojize(":umbrella: Anti-link"), callback_data='8'),InlineKeyboardButton(check_tfn(lock_link_var), callback_data='1')],
+                [InlineKeyboardButton(emojize(":speech_balloon: Anti-forward"), callback_data='9'),InlineKeyboardButton(check_tfn(lock_forward_var), callback_data='2')],
+                [InlineKeyboardButton(emojize(":alarm_clock: Anti-sticker"), callback_data='10'),InlineKeyboardButton(check_tfn(lock_sticker_var), callback_data='3')],
+                [InlineKeyboardButton(emojize(":cloud: Anti-gif"), callback_data='11'),InlineKeyboardButton(check_tfn(lock_gifs_var), callback_data='4')],
+                [InlineKeyboardButton(emojize(":cat: Welcomer"), callback_data='12'),InlineKeyboardButton(check_tfn(should_welcome), callback_data='5')],
+                [InlineKeyboardButton(emojize(":snake: Sleep"), callback_data='13'),InlineKeyboardButton(check_tfn(sleep_status), callback_data='6')],
+                [InlineKeyboardButton(emojize(":name_badge: max warn"), callback_data='14'),InlineKeyboardButton(max_warn, callback_data='7')],
+            ]
+
 
 # command for giving list of admins
 @run_async
@@ -495,7 +508,123 @@ def pannel_function(update, context):
             update.message.reply_text('Pannel : ', reply_markup=reply_markup)
         except Exception as error:
             print(error)
+
+@run_async
+def pannel_query_function(update, context):
+    query = update.callback_query
+    data = query.data
+    message_id = query.message.message_id
+    
+    try:
+        global lock_link_var
+        global lock_forward_var
+        global lock_sticker_var
+        global lock_gifs_var
+        global should_welcome
+        global sleep_status
+
+        if data == '1':
+            if lock_link_var == True:
+                lock_link_var = False
+            else:
+                lock_link_var = True
+            keyboard = [
+                [InlineKeyboardButton(emojize(":umbrella: Anti-link"), callback_data='8'),InlineKeyboardButton(check_tfn(lock_link_var), callback_data='1')],
+                [InlineKeyboardButton(emojize(":speech_balloon: Anti-forward"), callback_data='9'),InlineKeyboardButton(check_tfn(lock_forward_var), callback_data='2')],
+                [InlineKeyboardButton(emojize(":alarm_clock: Anti-sticker"), callback_data='10'),InlineKeyboardButton(check_tfn(lock_sticker_var), callback_data='3')],
+                [InlineKeyboardButton(emojize(":cloud: Anti-gif"), callback_data='11'),InlineKeyboardButton(check_tfn(lock_gifs_var), callback_data='4')],
+                [InlineKeyboardButton(emojize(":cat: Welcomer"), callback_data='12'),InlineKeyboardButton(check_tfn(should_welcome), callback_data='5')],
+                [InlineKeyboardButton(emojize(":snake: Sleep"), callback_data='13'),InlineKeyboardButton(check_tfn(sleep_status), callback_data='6')],
+                [InlineKeyboardButton(emojize(":name_badge: max warn"), callback_data='14'),InlineKeyboardButton(max_warn, callback_data='7')],
+            ]
+            query.edit_message_text('Done !\nPannel : ', reply_markup=InlineKeyboardMarkup(keyboard))
         
+        if data == '2':
+            if lock_forward_var == True:
+                lock_forward_var = False
+            else:
+                lock_forward_var = True
+                keyboard = [
+                    [InlineKeyboardButton(emojize(":umbrella: Anti-link"), callback_data='8'),InlineKeyboardButton(check_tfn(lock_link_var), callback_data='1')],
+                    [InlineKeyboardButton(emojize(":speech_balloon: Anti-forward"), callback_data='9'),InlineKeyboardButton(check_tfn(lock_forward_var), callback_data='2')],
+                    [InlineKeyboardButton(emojize(":alarm_clock: Anti-sticker"), callback_data='10'),InlineKeyboardButton(check_tfn(lock_sticker_var), callback_data='3')],
+                    [InlineKeyboardButton(emojize(":cloud: Anti-gif"), callback_data='11'),InlineKeyboardButton(check_tfn(lock_gifs_var), callback_data='4')],
+                    [InlineKeyboardButton(emojize(":cat: Welcomer"), callback_data='12'),InlineKeyboardButton(check_tfn(should_welcome), callback_data='5')],
+                    [InlineKeyboardButton(emojize(":snake: Sleep"), callback_data='13'),InlineKeyboardButton(check_tfn(sleep_status), callback_data='6')],
+                    [InlineKeyboardButton(emojize(":name_badge: max warn"), callback_data='14'),InlineKeyboardButton(max_warn, callback_data='7')],
+                ]
+                query.edit_message_text('Done !\nPannel : ', reply_markup=InlineKeyboardMarkup(keyboard))
+
+        if data == '3':
+            if lock_sticker_var == True:
+                lock_sticker_var = False
+            else:
+                lock_sticker_var = True
+                keyboard = [
+                    [InlineKeyboardButton(emojize(":umbrella: Anti-link"), callback_data='8'),InlineKeyboardButton(check_tfn(lock_link_var), callback_data='1')],
+                    [InlineKeyboardButton(emojize(":speech_balloon: Anti-forward"), callback_data='9'),InlineKeyboardButton(check_tfn(lock_forward_var), callback_data='2')],
+                    [InlineKeyboardButton(emojize(":alarm_clock: Anti-sticker"), callback_data='10'),InlineKeyboardButton(check_tfn(lock_sticker_var), callback_data='3')],
+                    [InlineKeyboardButton(emojize(":cloud: Anti-gif"), callback_data='11'),InlineKeyboardButton(check_tfn(lock_gifs_var), callback_data='4')],
+                    [InlineKeyboardButton(emojize(":cat: Welcomer"), callback_data='12'),InlineKeyboardButton(check_tfn(should_welcome), callback_data='5')],
+                    [InlineKeyboardButton(emojize(":snake: Sleep"), callback_data='13'),InlineKeyboardButton(check_tfn(sleep_status), callback_data='6')],
+                    [InlineKeyboardButton(emojize(":name_badge: max warn"), callback_data='14'),InlineKeyboardButton(max_warn, callback_data='7')],
+                ]
+                query.edit_message_text('Done !\nPannel : ', reply_markup=InlineKeyboardMarkup(keyboard))
+            
+
+        if data == '4':
+            if lock_gifs_var == True:
+                lock_gifs_var = False
+            else:
+                lock_gifs_var = True
+                keyboard = [
+                    [InlineKeyboardButton(emojize(":umbrella: Anti-link"), callback_data='8'),InlineKeyboardButton(check_tfn(lock_link_var), callback_data='1')],
+                    [InlineKeyboardButton(emojize(":speech_balloon: Anti-forward"), callback_data='9'),InlineKeyboardButton(check_tfn(lock_forward_var), callback_data='2')],
+                    [InlineKeyboardButton(emojize(":alarm_clock: Anti-sticker"), callback_data='10'),InlineKeyboardButton(check_tfn(lock_sticker_var), callback_data='3')],
+                    [InlineKeyboardButton(emojize(":cloud: Anti-gif"), callback_data='11'),InlineKeyboardButton(check_tfn(lock_gifs_var), callback_data='4')],
+                    [InlineKeyboardButton(emojize(":cat: Welcomer"), callback_data='12'),InlineKeyboardButton(check_tfn(should_welcome), callback_data='5')],
+                    [InlineKeyboardButton(emojize(":snake: Sleep"), callback_data='13'),InlineKeyboardButton(check_tfn(sleep_status), callback_data='6')],
+                    [InlineKeyboardButton(emojize(":name_badge: max warn"), callback_data='14'),InlineKeyboardButton(max_warn, callback_data='7')],
+                ]
+                query.edit_message_text('Done !\nPannel : ', reply_markup=InlineKeyboardMarkup(keyboard))
+
+        if data == '5':
+            if should_welcome == True:
+                should_welcome = False
+            else:
+                should_welcome = True
+                keyboard = [
+                    [InlineKeyboardButton(emojize(":umbrella: Anti-link"), callback_data='8'),InlineKeyboardButton(check_tfn(lock_link_var), callback_data='1')],
+                    [InlineKeyboardButton(emojize(":speech_balloon: Anti-forward"), callback_data='9'),InlineKeyboardButton(check_tfn(lock_forward_var), callback_data='2')],
+                    [InlineKeyboardButton(emojize(":alarm_clock: Anti-sticker"), callback_data='10'),InlineKeyboardButton(check_tfn(lock_sticker_var), callback_data='3')],
+                    [InlineKeyboardButton(emojize(":cloud: Anti-gif"), callback_data='11'),InlineKeyboardButton(check_tfn(lock_gifs_var), callback_data='4')],
+                    [InlineKeyboardButton(emojize(":cat: Welcomer"), callback_data='12'),InlineKeyboardButton(check_tfn(should_welcome), callback_data='5')],
+                    [InlineKeyboardButton(emojize(":snake: Sleep"), callback_data='13'),InlineKeyboardButton(check_tfn(sleep_status), callback_data='6')],
+                    [InlineKeyboardButton(emojize(":name_badge: max warn"), callback_data='14'),InlineKeyboardButton(max_warn, callback_data='7')],
+                ]
+                query.edit_message_text('Done !\nPannel : ', reply_markup=InlineKeyboardMarkup(keyboard))
+
+        if data == '6':
+            if sleep_status == True:
+                sleep_status = False
+            else:
+                sleep_status = True
+                keyboard = [
+                    [InlineKeyboardButton(emojize(":umbrella: Anti-link"), callback_data='8'),InlineKeyboardButton(check_tfn(lock_link_var), callback_data='1')],
+                    [InlineKeyboardButton(emojize(":speech_balloon: Anti-forward"), callback_data='9'),InlineKeyboardButton(check_tfn(lock_forward_var), callback_data='2')],
+                    [InlineKeyboardButton(emojize(":alarm_clock: Anti-sticker"), callback_data='10'),InlineKeyboardButton(check_tfn(lock_sticker_var), callback_data='3')],
+                    [InlineKeyboardButton(emojize(":cloud: Anti-gif"), callback_data='11'),InlineKeyboardButton(check_tfn(lock_gifs_var), callback_data='4')],
+                    [InlineKeyboardButton(emojize(":cat: Welcomer"), callback_data='12'),InlineKeyboardButton(check_tfn(should_welcome), callback_data='5')],
+                    [InlineKeyboardButton(emojize(":snake: Sleep"), callback_data='13'),InlineKeyboardButton(check_tfn(sleep_status), callback_data='6')],
+                    [InlineKeyboardButton(emojize(":name_badge: max warn"), callback_data='14'),InlineKeyboardButton(max_warn, callback_data='7')],
+                ]
+                query.edit_message_text('Done !\nPannel : ', reply_markup=InlineKeyboardMarkup(keyboard))
+
+    except Exception as error:
+        print(error)
+    
+    # last data is about max warn number so we do nothing
+
 # function for getting time in Jalali implementation
 @run_async
 def time_function(update, context):
@@ -591,6 +720,7 @@ updater.dispatcher.add_handler(CommandHandler('anti_gif', set_anti_gifs)) # /ant
 updater.dispatcher.add_handler(CommandHandler('welc', set_should_welcome)) # /welc on|off for replying welcome to new members
 updater.dispatcher.add_handler(CommandHandler('settings', settings_function)) # function to get list of settings
 updater.dispatcher.add_handler(CommandHandler('pannel', pannel_function))
+updater.dispatcher.add_handler(CallbackQueryHandler(pannel_query_function))
 
 "---------------------- CHATTING SETTINGS HANDLERS! ----------------------"
 updater.dispatcher.add_handler(CommandHandler('sleep', sleep_function))

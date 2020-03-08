@@ -80,9 +80,3 @@ cant_mute_bot_text = "You cant mute me :("
 muted_user_text = "#MUTED\nspecified user is muted now\nuse /unmute if you changed your mine"
 
 unmuted_user_text = "this user is not muted already"
-
-def check_tfn(vari):
-    if vari == True:
-        return "on"
-    else:
-        return "off"
