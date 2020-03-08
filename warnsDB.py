@@ -24,6 +24,10 @@ def check_warns(chat_id):
     c.execute("SELECT * FROM warns1 WHERE id=(?)", (chat_id,))
     return c.fetchall()
 
+def remove_warns_by_id(chat_id):
+    c.execute("DELETE from warns1 where id = ?", (chat_id,))
+    conn.commit()
+
 # will erase all warns
 def reset_table():
     c.execute("DELETE FROM warns1 WHERE warn>0")
