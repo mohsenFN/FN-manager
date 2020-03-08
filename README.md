@@ -39,7 +39,7 @@ It's an inchoate version and I'll improve it day to day.
 
 ### Some shots:
 ##### New admin pannel + emoji 
-![alt-pannel](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example4.jpg)
+![alt-pannel](https://github.com/mohsenFN/FN-manager/blob/master/images/sample.gif)
 
 ##### Warn and remove by warn test:
 ![alt-ex](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg)
