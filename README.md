@@ -31,6 +31,7 @@ It's an inchoate version and I'll improve it day to day.
 - [x] Delete users' warn by admins command.
 - [x] Mute and Unmute user by command.
 - [x] Date command (based on Solar Hijri).
+- [x] Use stickers
 - [ ] Use Persian texts instead of English(last stage).
 - [ ] Add wiki to repo(last stage).
 
