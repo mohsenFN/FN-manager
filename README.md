@@ -1,6 +1,6 @@
-# FN group manager
-### powered by Python
-### version `2.4` 
+# FN Group Manager
+### Powered by Python
+### Version 2.5 
 
 It's an inchoate version and I'll improve it day to day.
 
@@ -19,16 +19,14 @@ It's an inchoate version and I'll improve it day to day.
 - [x] Lock and unluck stickers in group.
 - [x] Lock and unlock forwards in group.
 - [x] Lock and unlock welcome message for new users.
-- [x] Prevent non-admin user from chatting.
-- [ ] Alert admin if any bot is joined.
-- [ ] Set anti-Spammer with custom max m/s. 
+- [x] Prevent non-admin user from chatting. 
 - [x] Remove user by command.
 - [x] Reply the custom message for new users. 
 - [x] Delete last messages in group (e.g. delete 10 last messages).
 - [x] Command for getting some information about user.
 - [x] Report option(forwards the reported message to admin).
 - [x] Function for groups settings.
-- [ ] Function for groups settings but inlineMode.
+- [x] Function for groups settings but inlineMode.
 - [x] Warn command.
 - [x] Delete users' warn by admins command.
 - [x] Mute and Unmute user by command.
@@ -36,7 +34,12 @@ It's an inchoate version and I'll improve it day to day.
 - [ ] Use Persian texts instead of English(last stage).
 - [ ] Add wiki to repo(last stage).
 
+#### If you have any ideas for my project feel free to share it with me :)
+
 ### Some shots:
+##### Warn and remove by warn test:
+![alt-pannel](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example4.jpg)
+
 ##### Warn and remove by warn test:
 ![alt-ex](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg)
 
