@@ -13,6 +13,8 @@ from qaDB import insert_qa, asnwer_to_q, all_q_a, delete_q
 from config import *
 from re import split
 import jdatetime
+from emoji import emojize
+
 
 # sub variables --> should be global while using in functions
 chat_id = admin # admin's chat id
@@ -479,17 +481,20 @@ def pannel_function(update, context):
         elif update.message.from_user.id == chat_id:
             is_admin = True
     if is_admin:
-        keyboard = [
-            [InlineKeyboardButton("Anti-link", callback_data='8'),InlineKeyboardButton(check_tfn(lock_link_var), callback_data='1')],
-            [InlineKeyboardButton("Anti-forward", callback_data='9'),InlineKeyboardButton(check_tfn(lock_forward_var), callback_data='2')],
-            [InlineKeyboardButton("Anti-sticker", callback_data='10'),InlineKeyboardButton(check_tfn(lock_sticker_var), callback_data='3')],
-            [InlineKeyboardButton("Anti-gif", callback_data='11'),InlineKeyboardButton(check_tfn(lock_gifs_var), callback_data='4')],
-            [InlineKeyboardButton("Welcomer", callback_data='12'),InlineKeyboardButton(check_tfn(should_welcome), callback_data='5')],
-            [InlineKeyboardButton("Sleep", callback_data='13'),InlineKeyboardButton(check_tfn(sleep_status), callback_data='6')],
-            [InlineKeyboardButton("max warn", callback_data='14'),InlineKeyboardButton(max_warn, callback_data='7')],
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        update.message.reply_text('Pannel : ', reply_markup=reply_markup)
+        try:
+            keyboard = [
+                [InlineKeyboardButton(emojize(":umbrella: Anti-link"), callback_data='8'),InlineKeyboardButton(check_tfn(lock_link_var), callback_data='1')],
+                [InlineKeyboardButton(emojize(":speech_balloon: Anti-forward"), callback_data='9'),InlineKeyboardButton(check_tfn(lock_forward_var), callback_data='2')],
+                [InlineKeyboardButton(emojize(":alarm_clock: Anti-sticker"), callback_data='10'),InlineKeyboardButton(check_tfn(lock_sticker_var), callback_data='3')],
+                [InlineKeyboardButton(emojize(":cloud: Anti-gif"), callback_data='11'),InlineKeyboardButton(check_tfn(lock_gifs_var), callback_data='4')],
+                [InlineKeyboardButton(emojize(":cat: Welcomer"), callback_data='12'),InlineKeyboardButton(check_tfn(should_welcome), callback_data='5')],
+                [InlineKeyboardButton(emojize(":snake: Sleep"), callback_data='13'),InlineKeyboardButton(check_tfn(sleep_status), callback_data='6')],
+                [InlineKeyboardButton(emojize(":name_badge: max warn"), callback_data='14'),InlineKeyboardButton(max_warn, callback_data='7')],
+            ]
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            update.message.reply_text('Pannel : ', reply_markup=reply_markup)
+        except Exception as error:
+            print(error)
         
 # function for getting time in Jalali implementation
 @run_async
