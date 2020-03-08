@@ -7,6 +7,7 @@ __github__ = "github.com/mohsenFn"
 from telegram.ext import CommandHandler, MessageHandler, RegexHandler
 from telegram.ext import Updater, Filters, run_async
 from telegram import ChatPermissions, Bot
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from warnsDB import insert_warn, check_warns, remove_warns_by_id
 from qaDB import insert_qa, asnwer_to_q, all_q_a, delete_q
 from config import *
@@ -20,6 +21,7 @@ lock_forward_var = None
 lock_sticker_var = None
 lock_gifs_var = None
 should_welcome = None
+sleep_status = None
 max_warn = 3
 
 # command for giving list of admins
@@ -299,6 +301,7 @@ def forgive_function(update, context):
 
 @run_async
 def sleep_function(update, context):
+    global sleep_status
     # in this mode only non-admin users are going to be prevented from sending messages
     is_admin = False
     for i in context.bot.getChatAdministrators(update.message.chat_id):
@@ -313,6 +316,7 @@ def sleep_function(update, context):
             if is_admin:
                 context.bot.set_chat_permissions(update.message.chat_id, ChatPermissions(can_send_messages=False))
                 update.message.reply_text(sleep_mode_on_text)
+                sleep_status = True
                 
         elif context.args[0].lower() == "off":
             if is_admin:
@@ -323,6 +327,7 @@ def sleep_function(update, context):
                                          can_add_web_page_previews=True) # specifing permisions
                                         )
                 update.message.reply_text(sleep_mode_off_text)
+                sleep_status == False
         elif context.args[0].lower() != "off" and context.args[0].lower() != "on":
             if is_admin:
                 update.message.reply_text(sleep_wrong_text)
@@ -462,6 +467,30 @@ def me_function(update, context):
     update.message.reply_text(me_text.format(fu.first_name, fu.last_name,
                                                          fu.username ,fu.id, fu.is_bot))
 
+# admins pannel (Inline keyboard)
+@run_async
+def pannel_function(update, context):
+    is_admin = False
+    for i in context.bot.getChatAdministrators(update.message.chat_id):
+        # checks if the sender of message is admin of group or no
+        if update.message.from_user.id == i.user.id:
+            is_admin = True
+            # checks sender of message is the main admin or no
+        elif update.message.from_user.id == chat_id:
+            is_admin = True
+    if is_admin:
+        keyboard = [
+            [InlineKeyboardButton("Anti-link", callback_data='8'),InlineKeyboardButton(check_tfn(lock_link_var), callback_data='1')],
+            [InlineKeyboardButton("Anti-forward", callback_data='9'),InlineKeyboardButton(check_tfn(lock_forward_var), callback_data='2')],
+            [InlineKeyboardButton("Anti-sticker", callback_data='10'),InlineKeyboardButton(check_tfn(lock_sticker_var), callback_data='3')],
+            [InlineKeyboardButton("Anti-gif", callback_data='11'),InlineKeyboardButton(check_tfn(lock_gifs_var), callback_data='4')],
+            [InlineKeyboardButton("Welcomer", callback_data='12'),InlineKeyboardButton(check_tfn(should_welcome), callback_data='5')],
+            [InlineKeyboardButton("Sleep", callback_data='13'),InlineKeyboardButton(check_tfn(sleep_status), callback_data='6')],
+            [InlineKeyboardButton("max warn", callback_data='14'),InlineKeyboardButton(max_warn, callback_data='7')],
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        update.message.reply_text('Pannel : ', reply_markup=reply_markup)
+        
 # function for getting time in Jalali implementation
 @run_async
 def time_function(update, context):
@@ -556,6 +585,7 @@ updater.dispatcher.add_handler(CommandHandler('anti_forward', set_anti_forward))
 updater.dispatcher.add_handler(CommandHandler('anti_gif', set_anti_gifs)) # /anti_gif on|off for anti forward option
 updater.dispatcher.add_handler(CommandHandler('welc', set_should_welcome)) # /welc on|off for replying welcome to new members
 updater.dispatcher.add_handler(CommandHandler('settings', settings_function)) # function to get list of settings
+updater.dispatcher.add_handler(CommandHandler('pannel', pannel_function))
 
 "---------------------- CHATTING SETTINGS HANDLERS! ----------------------"
 updater.dispatcher.add_handler(CommandHandler('sleep', sleep_function))
