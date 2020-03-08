@@ -1,6 +1,6 @@
 # FN group manager
 ### powered by Python
-### version `2.2` 
+### version `2.4` 
 
 It's an inchoate version and I'll improve it day to day.
 
@@ -15,7 +15,7 @@ It's an inchoate version and I'll improve it day to day.
 - [x] Set command for custom command(e.g. !test).
 - [x] General options like start | help | coder.
 - [x] Lock and unlock links in group.
-- [ ] Lock and unlock gifs in group.
+- [x] Lock and unlock gifs in group.
 - [x] Lock and unluck stickers in group.
 - [x] Lock and unlock forwards in group.
 - [x] Lock and unlock welcome message for new users.
@@ -27,10 +27,10 @@ It's an inchoate version and I'll improve it day to day.
 - [x] Delete last messages in group (e.g. delete 10 last messages).
 - [x] Command for getting some information about user.
 - [x] Report option(forwards the reported message to admin).
-- [x] Function for getting groups.
-- [ ] Function for getting groups but inlineMode.
+- [x] Function for groups settings.
+- [ ] Function for groups settings but inlineMode.
 - [x] Warn command.
-- [ ] Delete users' warn by admins command.
+- [x] Delete users' warn by admins command.
 - [x] Mute and Unmute user by command.
 - [x] Date command (based on Solar Hijri).
 - [ ] Use Persian texts instead of English(last stage).
