@@ -32,8 +32,6 @@ It's an inchoate version and I'll improve it day to day.
 - [x] Mute and Unmute user by command.
 - [x] Date command (based on Solar Hijri).
 - [x] Use stickers.
-- [ ] Use Persian texts instead of English(last stage).
-- [ ] Add wiki to repo(last stage).
 
 #### If you have any ideas for my project feel free to share it with me :)
 
