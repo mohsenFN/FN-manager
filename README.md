@@ -2,7 +2,6 @@
 ### Powered by Python
 ### Version 2.5 
 
-It's an inchoate version and I'll improve it day to day.
 
 #### Used techs:
 * [Python 3.7](https://www.python.org/downloads/release/python-370/)
@@ -33,21 +32,9 @@ It's an inchoate version and I'll improve it day to day.
 - [x] Date command (based on Solar Hijri).
 - [x] Use stickers.
 
+### Check out out wiki tab to see instructions.
+
 #### If you have any ideas for my project feel free to share it with me :)
 
-### Some shots:
-##### New admin pannel + emoji 
-![alt-pannel](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example4.jpg)
-
-##### Warn and remove by warn test:
-![alt-ex](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg)
-
-##### Custom ! commands exmaple:
-![alt-warn](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example2.jpg)
-
-##### Mute and Unmute command:
-![alt-warn](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example3.jpg)
 
 
-
-New versions coming soon...
