@@ -37,15 +37,11 @@
 
 ### Screen Shots
 
-<div align="center">
 
-![Screen Shots]https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg)
-![Screen Shots]https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg)
-![Screen Shots]https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg)
-![Screen Shots]https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg)
-
-</div>
-#### If you have any ideas for my project feel free to share it with me :)
+![Screen Shots](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg?raw=true)
+![Screen Shots](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example2.jpg?raw=true
+![Screen Shots](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example3.jpg?raw=true)
+![Screen Shots](https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example4.jpg?raw=true)
 
 
 
