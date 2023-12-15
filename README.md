@@ -10,7 +10,7 @@
 * [Regular expression](https://docs.python.org/3/library/re.html)
 * [Jdatetime](https://pypi.org/project/jdatetime/)
 
-#### Roadmap
+### Abilities
 - [x] Set command for custom command(e.g. !test).
 - [x] General options like start | help | coder.
 - [x] Lock and unlock links in group.
@@ -34,6 +34,17 @@
 
 ### Check out out wiki tab to see instructions.
 
+
+### Screen Shots
+
+<div align="center">
+
+<img src="https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg" alt="Logo" width="80" height="80">
+<img src="https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg" alt="Logo" width="80" height="80">
+<img src="https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg" alt="Logo" width="80" height="80">
+<img src="https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg" alt="Logo" width="80" height="80">
+
+</div>
 #### If you have any ideas for my project feel free to share it with me :)
 
 
