@@ -1,8 +1,14 @@
-__coder__ = "mohsen-fn"
-__channel__ = "t.me/freezed_cash"
+"-------------------------- 11111111111111111 --------------------------"
+
+"------------------------ Number One Is Awake !--------------------------"
+
+"-------------------------- 11111111111111111 --------------------------"
+
+
+__coder__ = "mohsen-fn" 
 __github__ = "github.com/mohsenFn"
 
-"-------------------------- CODE STARTS HERE! --------------------------"
+
 
 from telegram.ext import CommandHandler, MessageHandler, RegexHandler, CallbackQueryHandler
 from telegram.ext import Updater, Filters, run_async
