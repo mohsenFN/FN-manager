@@ -39,10 +39,10 @@
 
 <div align="center">
 
-<img src="https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg" alt="Logo" width="80" height="80">
-<img src="https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg" alt="Logo" width="80" height="80">
-<img src="https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg" alt="Logo" width="80" height="80">
-<img src="https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg" alt="Logo" width="80" height="80">
+![Screen Shots]https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg)
+![Screen Shots]https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg)
+![Screen Shots]https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg)
+![Screen Shots]https://github.com/mohsenFN/FN-manager/blob/master/images/screenshots/example1.jpg)
 
 </div>
 #### If you have any ideas for my project feel free to share it with me :)
