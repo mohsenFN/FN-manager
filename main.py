@@ -14,10 +14,14 @@ from telegram.ext import CommandHandler, MessageHandler, RegexHandler, CallbackQ
 from telegram.ext import Updater, Filters, run_async
 from telegram import ChatPermissions, Bot
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from warnsDB import insert_warn, check_warns, remove_warns_by_id
-from qaDB import insert_qa, asnwer_to_q, all_q_a, delete_q
-from handy_modules import check_tfn, query_tfn
+
+from DataBaseManager.warns_manager import *
+from DataBaseManager.qa_manager import *
+
+from utils import check_tfn
+
 from config import *
+
 from re import split
 import jdatetime
 from emoji import emojize
